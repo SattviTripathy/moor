@@ -1,5 +1,5 @@
 /* Stillpoint service worker */
-const VERSION = "stillpoint-v1";
+const VERSION = "stillpoint-v2";
 const SHELL = [
   "./",
   "./index.html",

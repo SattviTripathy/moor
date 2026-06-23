@@ -83,8 +83,8 @@
      BREATHING ENGINE
      ============================================================ */
   const BREATHING = {
-    box: { name: "Box breathing",
-      hint: "Breathe in as the orb grows, hold, out as it falls, hold.",
+    box: { name: "Box breathing", box: true,
+      hint: "Trace the square: up as you breathe in, across to hold, down to breathe out, across to hold.",
       phases: [
         { label: "Breathe in", dur: 4, scale: 1.0, k: "in" },
         { label: "Hold",       dur: 4, scale: 1.0, k: "hold" },
@@ -114,6 +114,27 @@
   const orb = $("#orb"), ringFill = $("#ring-fill"), phaseLabel = $("#phase-label");
   const breathToggle = $("#breath-toggle"), breathDone = $("#breath-done");
   const breathName = $("#breath-name"), breathHint = $("#breath-hint"), cycleCount = $("#cycle-count");
+  const player = $("#player");
+
+  // box breathing visual: square perimeter 720, one 180-unit side per phase
+  const BOX_PERIM = 720, BOX_SIDE = 180;
+  const BOX_CORNERS = [ {x:30,y:30}, {x:210,y:30}, {x:210,y:210}, {x:30,y:210} ];
+  const boxFill = $("#box-fill"), boxDot = $("#box-dot");
+
+  function animateBox(i, dur){
+    if (i === 0){ // new cycle — clear the square, dot already rests at the start corner
+      boxFill.style.transition = "none";
+      boxFill.style.strokeDashoffset = BOX_PERIM;
+      void boxFill.offsetWidth;
+    }
+    const t = reduceMotion ? Math.min(0.6, dur) : dur;
+    boxFill.style.transition = `stroke-dashoffset ${t}s linear`;
+    boxFill.style.strokeDashoffset = String(BOX_PERIM - (i + 1) * BOX_SIDE);
+    const c = BOX_CORNERS[i];
+    boxDot.style.transition = `cx ${t}s linear, cy ${t}s linear`;
+    boxDot.style.cx = c.x + "px";
+    boxDot.style.cy = c.y + "px";
+  }
 
   function startPlayer(exKey){
     const ex = BREATHING[exKey] || BREATHING.box;
@@ -129,6 +150,15 @@
     ringFill.style.strokeDashoffset = RING_C;
     breathToggle.textContent = "Begin";
     breathDone.hidden = true;
+
+    player.classList.toggle("is-box", !!ex.box);
+    if (ex.box){ // reset square + marker to the start corner (bottom-left)
+      boxFill.style.transition = "none";
+      boxFill.style.strokeDashoffset = BOX_PERIM;
+      boxDot.style.transition = "none";
+      boxDot.style.cx = BOX_CORNERS[3].x + "px";
+      boxDot.style.cy = BOX_CORNERS[3].y + "px";
+    }
   }
 
   function runPhase(){
@@ -137,21 +167,25 @@
     phaseLabel.textContent = p.label;
     cue(p.k);
 
-    if (reduceMotion){
-      orb.style.transition = "transform .6s linear, opacity .6s linear";
+    if (breath.ex.box){
+      animateBox(breath.i, p.dur);
     } else {
-      orb.style.transition = `transform ${p.dur}s cubic-bezier(.4,0,.2,1)`;
-    }
-    // force reflow so the new transition applies
-    void orb.offsetWidth;
-    orb.style.transform = `scale(${p.scale})`;
+      if (reduceMotion){
+        orb.style.transition = "transform .6s linear, opacity .6s linear";
+      } else {
+        orb.style.transition = `transform ${p.dur}s cubic-bezier(.4,0,.2,1)`;
+      }
+      // force reflow so the new transition applies
+      void orb.offsetWidth;
+      orb.style.transform = `scale(${p.scale})`;
 
-    // ring fills over the phase
-    ringFill.style.transition = "none";
-    ringFill.style.strokeDashoffset = RING_C;
-    void ringFill.offsetWidth;
-    ringFill.style.transition = `stroke-dashoffset ${p.dur}s linear`;
-    ringFill.style.strokeDashoffset = "0";
+      // ring fills over the phase
+      ringFill.style.transition = "none";
+      ringFill.style.strokeDashoffset = RING_C;
+      void ringFill.offsetWidth;
+      ringFill.style.transition = `stroke-dashoffset ${p.dur}s linear`;
+      ringFill.style.strokeDashoffset = "0";
+    }
 
     breath.timer = setTimeout(() => {
       breath.i++;
@@ -179,6 +213,12 @@
     orb.style.transition = "none"; orb.style.transform = m;
     const off = getComputedStyle(ringFill).strokeDashoffset;
     ringFill.style.transition = "none"; ringFill.style.strokeDashoffset = off;
+    if (breath.ex && breath.ex.box){ // freeze the marker + trace where they are
+      const cs = getComputedStyle(boxDot);
+      boxDot.style.transition = "none"; boxDot.style.cx = cs.cx; boxDot.style.cy = cs.cy;
+      const bo = getComputedStyle(boxFill).strokeDashoffset;
+      boxFill.style.transition = "none"; boxFill.style.strokeDashoffset = bo;
+    }
     phaseLabel.textContent = "Paused";
     breathToggle.textContent = "Resume";
   }

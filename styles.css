@@ -202,6 +202,22 @@ body{
   filter:blur(.3px);
 }
 
+/* box breathing visual */
+.box{ width:min(74vw, 290px); height:min(74vw, 290px); display:none; overflow:visible; }
+.breath.is-box .ring, .breath.is-box .orb{ display:none; }
+.breath.is-box .box{ display:block; }
+.box-track{ fill:none; stroke:var(--line); stroke-width:2.5; }
+.box-fill{
+  fill:none; stroke:var(--wash); stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:720; stroke-dashoffset:720;
+  transition:stroke-dashoffset 4s linear;
+}
+.box-dot{
+  fill:var(--wash-deep);
+  filter:drop-shadow(0 0 7px var(--wash-glow));
+  transition:cx 4s linear, cy 4s linear;
+}
+
 .phase{
   align-self:end; margin-bottom:-46px;
   font-family:"Fraunces", Georgia, serif;

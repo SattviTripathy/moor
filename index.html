@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Stillpoint — a calmer minute</title>
+  <meta name="description" content="Quiet, guided exercises for anxious moments: breathing, grounding, and letting the body settle." />
+
+  <meta name="theme-color" content="#F4EEE2" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..600,0..100,0..1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ HOME ============ -->
+  <main id="home" class="screen is-active" tabindex="-1">
+    <header class="home-head">
+      <p class="eyebrow">Stillpoint</p>
+      <h1 class="home-title" id="greeting">Let's take a slower minute.</h1>
+      <p class="home-sub">Pick a practice, or settle first and choose after.</p>
+    </header>
+
+    <button class="panic" data-go="player" data-ex="sigh">
+      <span class="panic-pulse" aria-hidden="true"></span>
+      <span class="panic-label">
+        <span class="panic-lead">Settle me now</span>
+        <span class="panic-sub">One long breath out — the fastest way down</span>
+      </span>
+    </button>
+
+    <section class="group" aria-labelledby="g-breathe">
+      <h2 class="group-title" id="g-breathe">Breathe</h2>
+      <div class="cards">
+        <button class="card" data-go="player" data-ex="box">
+          <span class="card-name">Box breathing</span>
+          <span class="card-meta">In 4 · hold 4 · out 4 · hold 4</span>
+          <span class="card-note">Even and steady. Good for a rising spike.</span>
+        </button>
+        <button class="card" data-go="player" data-ex="478">
+          <span class="card-name">4-7-8 breathing</span>
+          <span class="card-meta">In 4 · hold 7 · out 8</span>
+          <span class="card-note">A long exhale to tip you toward calm.</span>
+        </button>
+        <button class="card" data-go="player" data-ex="sigh">
+          <span class="card-name">Physiological sigh</span>
+          <span class="card-meta">Two breaths in · one long out</span>
+          <span class="card-note">The quickest reset, even in a single cycle.</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="g-ground">
+      <h2 class="group-title" id="g-ground">Ground</h2>
+      <div class="cards">
+        <button class="card" data-go="senses">
+          <span class="card-name">5-4-3-2-1</span>
+          <span class="card-meta">Five senses, one at a time</span>
+          <span class="card-note">Pulls attention out of the loop and into the room.</span>
+        </button>
+        <button class="card" data-go="categories">
+          <span class="card-name">Name them</span>
+          <span class="card-meta">List a category until it crowds the noise out</span>
+          <span class="card-note">A light mental task that leaves no room to spiral.</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="g-body">
+      <h2 class="group-title" id="g-body">Body</h2>
+      <div class="cards">
+        <button class="card" data-go="pmr">
+          <span class="card-name">Tense &amp; release</span>
+          <span class="card-meta">Head to toe, muscle by muscle</span>
+          <span class="card-note">Teaches the body the difference between tight and loose.</span>
+        </button>
+        <button class="card" data-go="move">
+          <span class="card-name">Move it through</span>
+          <span class="card-meta">Five quiet minutes</span>
+          <span class="card-note">Burns off the stress chemistry behind the feeling.</span>
+        </button>
+      </div>
+    </section>
+
+    <footer class="home-foot">
+      <button class="ghost" id="open-settings">Sound &amp; haptics</button>
+      <p class="disclaimer">A companion for hard moments, not a substitute for care. If anxiety is weighing on you often, a doctor or therapist can help you find what works.</p>
+    </footer>
+  </main>
+
+  <!-- ============ BREATHING PLAYER ============ -->
+  <section id="player" class="screen breath" tabindex="-1">
+    <button class="back" data-go="home" aria-label="Back to home">&larr;</button>
+    <div class="breath-head">
+      <h2 class="breath-name" id="breath-name">Box breathing</h2>
+      <p class="breath-count"><span id="cycle-count">0</span> cycles</p>
+    </div>
+
+    <div class="stage">
+      <svg class="ring" viewBox="0 0 240 240" aria-hidden="true">
+        <circle class="ring-track" cx="120" cy="120" r="110" />
+        <circle class="ring-fill" id="ring-fill" cx="120" cy="120" r="110" />
+      </svg>
+      <div class="orb" id="orb">
+        <div class="orb-core"></div>
+      </div>
+      <p class="phase" id="phase-label">Ready when you are</p>
+    </div>
+
+    <div class="breath-controls">
+      <button class="primary" id="breath-toggle">Begin</button>
+      <button class="ghost" id="breath-done" hidden>Done</button>
+    </div>
+    <p class="hint" id="breath-hint">Follow the orb. Breathe in as it grows, out as it falls.</p>
+  </section>
+
+  <!-- ============ 5-4-3-2-1 ============ -->
+  <section id="senses" class="screen" tabindex="-1">
+    <button class="back" data-go="home" aria-label="Back to home">&larr;</button>
+    <div class="step-wrap">
+      <p class="step-eyebrow">Grounding</p>
+      <p class="step-progress" id="sense-progress">1 of 5</p>
+      <h2 class="step-prompt" id="sense-prompt">Five things you can see</h2>
+      <p class="step-hint" id="sense-hint">Look around. Tap one for each thing you notice — no rush.</p>
+      <div class="dots" id="sense-dots"></div>
+      <div class="step-controls">
+        <button class="primary" id="sense-next" disabled>Next sense</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORIES ============ -->
+  <section id="categories" class="screen" tabindex="-1">
+    <button class="back" data-go="home" aria-label="Back to home">&larr;</button>
+    <div id="cat-pick" class="cat-pick">
+      <p class="step-eyebrow">Name them</p>
+      <h2 class="step-prompt">Pick something to list</h2>
+      <p class="step-hint">Choose a well, then name as many as you can. Quantity over quality.</p>
+      <div class="cat-grid" id="cat-grid"></div>
+    </div>
+    <div id="cat-run" class="cat-run" hidden>
+      <p class="step-eyebrow">Name as many as you can</p>
+      <h2 class="step-prompt" id="cat-title">Coffee brewing methods</h2>
+      <div class="tally" id="cat-tally">0</div>
+      <button class="orb-tap" id="cat-add">Tap for each one</button>
+      <div class="step-controls">
+        <button class="ghost" id="cat-back">Pick another</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PMR ============ -->
+  <section id="pmr" class="screen" tabindex="-1">
+    <button class="back" data-go="home" aria-label="Back to home">&larr;</button>
+    <div class="step-wrap">
+      <p class="step-eyebrow">Tense &amp; release</p>
+      <p class="step-progress" id="pmr-progress">Ready</p>
+      <h2 class="step-prompt" id="pmr-group">Hands &amp; forearms</h2>
+      <p class="pmr-cue" id="pmr-cue">Press start when you're settled.</p>
+      <div class="ring-small">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-track" cx="60" cy="60" r="52" />
+          <circle class="ring-fill" id="pmr-ring" cx="60" cy="60" r="52" />
+        </svg>
+        <span class="pmr-timer" id="pmr-timer"></span>
+      </div>
+      <div class="step-controls">
+        <button class="primary" id="pmr-toggle">Begin</button>
+        <button class="ghost" id="pmr-skip" hidden>Skip group</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MOVEMENT ============ -->
+  <section id="move" class="screen" tabindex="-1">
+    <button class="back" data-go="home" aria-label="Back to home">&larr;</button>
+    <div class="step-wrap">
+      <p class="step-eyebrow">Move it through</p>
+      <h2 class="step-prompt">Five minutes, gently</h2>
+      <p class="step-hint" id="move-hint">Stand up, shake out your hands, and let it be easy.</p>
+      <div class="ring-small big">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-track" cx="60" cy="60" r="52" />
+          <circle class="ring-fill" id="move-ring" cx="60" cy="60" r="52" />
+        </svg>
+        <span class="move-timer" id="move-timer">5:00</span>
+      </div>
+      <div class="step-controls">
+        <button class="primary" id="move-toggle">Begin</button>
+        <button class="ghost" id="move-reset" hidden>Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS SHEET ============ -->
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-panel" role="dialog" aria-label="Sound and haptics">
+      <h2 class="sheet-title">Cues</h2>
+      <label class="toggle">
+        <span>Soft sound cues</span>
+        <input type="checkbox" id="opt-sound" checked />
+        <span class="track" aria-hidden="true"></span>
+      </label>
+      <label class="toggle">
+        <span>Gentle vibration</span>
+        <input type="checkbox" id="opt-haptic" checked />
+        <span class="track" aria-hidden="true"></span>
+      </label>
+      <p class="sheet-note">Vibration works on most Android phones. iPhones stay silent here — that's just Safari.</p>
+      <button class="primary" id="sheet-close">Done</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /* Moor service worker */
-const VERSION = "moor-v6";
+const VERSION = "moor-v7";
 const SHELL = [
   "./",
   "./index.html",

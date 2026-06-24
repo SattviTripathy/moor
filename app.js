@@ -491,14 +491,6 @@
   optSound.addEventListener("change", () => { settings.sound = optSound.checked; save("sp_sound", settings.sound); if (settings.sound) cue("tap"); });
   optHaptic.addEventListener("change", () => { settings.haptic = optHaptic.checked; save("sp_haptic", settings.haptic); if (settings.haptic) buzz(20); });
 
-  /* ---------- greeting by time of day ---------- */
-  const h = new Date().getHours();
-  const greet = h < 5 ? "It's late. Let's slow things down."
-    : h < 12 ? "Let's start the day a little slower."
-    : h < 18 ? "Take a slower minute."
-    : "Let's wind the day down gently.";
-  $("#greeting").textContent = greet;
-
   /* ---------- service worker ---------- */
   if ("serviceWorker" in navigator){
     window.addEventListener("load", () => {

@@ -1,21 +1,20 @@
-# Stillpoint
+# Moor
 
 A quiet, mobile-first PWA of anxiety-relief exercises — breathing, grounding, and body practices — that runs fully offline once installed.
 
 **What's inside**
 
-- **Settle me now** — one tap straight into the physiological sigh, the fastest acute tool
-- **Breathe** — box breathing, 4-7-8, and the physiological sigh, each with an animated breathing orb, a phase ring, soft sound cues and gentle haptics
-- **Ground** — 5-4-3-2-1 senses walkthrough, and a "name them" category game
+- **Settle me now** — one tap straight into box breathing: slow, even, and steadying
+- **Breathe** — box breathing (with a square that traces one side per phase), plus 4-7-8 and the physiological sigh, each with a rising/falling tide, a phase ring, soft sound cues and gentle haptics
+- **Ground** — 5-4-3-2-1 senses walkthrough, and a "name them" category game anyone can play
 - **Body** — head-to-toe tense & release (PMR), and a 5-minute movement timer
-- Installable, offline-capable, warm light theme, respects reduced-motion
+- Installable, offline-capable, soft lavender theme, respects reduced-motion
 
 ## Run it locally
 
 Any static server works, e.g.:
 
 ```bash
-cd stillpoint
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
@@ -24,30 +23,13 @@ python3 -m http.server 8000
 
 ## Host on GitHub Pages
 
-**Option A — web upload (no terminal)**
-
-1. Create a new repo on GitHub, e.g. `stillpoint`.
-2. Upload everything in this folder (`index.html`, `styles.css`, `app.js`, `manifest.webmanifest`, `sw.js`, and the `icons/` folder) to the repo root.
-3. Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch: **main** / **/(root)** → Save.
-4. Wait ~1 minute. Your app is live at `https://<username>.github.io/stillpoint/`.
-
-**Option B — git (paste and run)**
-
-```bash
-cd stillpoint
-git init
-git add .
-git commit -m "Stillpoint PWA"
-git branch -M main
-git remote add origin https://github.com/<username>/stillpoint.git
-git push -u origin main
-```
-
-Then enable Pages as in Option A, step 3.
+1. Push these files to the repo root (`index.html`, `styles.css`, `app.js`, `manifest.webmanifest`, `sw.js`, and the `icons/` folder).
+2. Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch: **main** / **/(root)** → Save.
+3. Wait ~1 minute. Your app is live at `https://<username>.github.io/moor/`.
 
 ## Notes
 
-- All paths are **relative**, so it works correctly from a project subpath like `/stillpoint/`.
+- All paths are **relative**, so it works correctly from a project subpath like `/moor/`.
 - Fonts load from Google Fonts on first online visit, then get cached for offline use.
 - To install on a phone: open the Pages URL, then "Add to Home Screen."
 - Bumping the cache: change `VERSION` in `sw.js` when you update files, so clients pick up the new version.

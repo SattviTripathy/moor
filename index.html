@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Stillpoint — a calmer minute</title>
+  <title>Moor — a calmer minute</title>
   <meta name="description" content="Quiet, guided exercises for anxious moments: breathing, grounding, and letting the body settle." />
 
-  <meta name="theme-color" content="#F4EEE2" />
+  <meta name="theme-color" content="#FAF5FF" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <link rel="icon" href="./icons/icon-192.png" />
@@ -26,16 +26,16 @@
   <!-- ============ HOME ============ -->
   <main id="home" class="screen is-active" tabindex="-1">
     <header class="home-head">
-      <p class="eyebrow">Stillpoint</p>
+      <p class="eyebrow">Moor</p>
       <h1 class="home-title" id="greeting">Let's take a slower minute.</h1>
       <p class="home-sub">Pick a practice, or settle first and choose after.</p>
     </header>
 
-    <button class="panic" data-go="player" data-ex="sigh">
+    <button class="panic" data-go="player" data-ex="box">
       <span class="panic-pulse" aria-hidden="true"></span>
       <span class="panic-label">
         <span class="panic-lead">Settle me now</span>
-        <span class="panic-sub">One long breath out — the fastest way down</span>
+        <span class="panic-sub">Box breathing — slow, even, steadying</span>
       </span>
     </button>
 
@@ -111,8 +111,8 @@
         <circle class="ring-track" cx="120" cy="120" r="110" />
         <circle class="ring-fill" id="ring-fill" cx="120" cy="120" r="110" />
       </svg>
-      <div class="orb" id="orb">
-        <div class="orb-core"></div>
+      <div class="tide" id="tide" aria-hidden="true">
+        <div class="tide-liquid" id="tide-liquid"></div>
       </div>
       <svg class="box" id="box-svg" viewBox="0 0 240 240" aria-hidden="true">
         <path class="box-track" d="M30 210 L30 30 L210 30 L210 210 Z" />
@@ -126,7 +126,7 @@
       <button class="primary" id="breath-toggle">Begin</button>
       <button class="ghost" id="breath-done" hidden>Done</button>
     </div>
-    <p class="hint" id="breath-hint">Follow the orb. Breathe in as it grows, out as it falls.</p>
+    <p class="hint" id="breath-hint">Breathe in as the water rises, out as it falls.</p>
   </section>
 
   <!-- ============ 5-4-3-2-1 ============ -->
@@ -155,7 +155,7 @@
     </div>
     <div id="cat-run" class="cat-run" hidden>
       <p class="step-eyebrow">Name as many as you can</p>
-      <h2 class="step-prompt" id="cat-title">Coffee brewing methods</h2>
+      <h2 class="step-prompt" id="cat-title">Animals</h2>
       <div class="tally" id="cat-tally">0</div>
       <button class="orb-tap" id="cat-add">Tap for each one</button>
       <div class="step-controls">

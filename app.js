@@ -1,5 +1,5 @@
 /* ============================================================
-   Stillpoint — app logic
+   Moor — app logic
    ============================================================ */
 (() => {
   "use strict";
@@ -111,7 +111,9 @@
   let pendingEx = "box";
   const breath = { ex: null, i: 0, cycles: 0, running: false, timer: null };
 
-  const orb = $("#orb"), ringFill = $("#ring-fill"), phaseLabel = $("#phase-label");
+  const tide = $("#tide-liquid"), ringFill = $("#ring-fill"), phaseLabel = $("#phase-label");
+  const TIDE_REST = 62; // resting translateY% (~38% full)
+  function tideLevel(frac){ return `translateY(${Math.round((1 - frac) * 100)}%)`; }
   const breathToggle = $("#breath-toggle"), breathDone = $("#breath-done");
   const breathName = $("#breath-name"), breathHint = $("#breath-hint"), cycleCount = $("#cycle-count");
   const player = $("#player");
@@ -144,8 +146,8 @@
     cycleCount.textContent = "0";
     phaseLabel.textContent = "Ready when you are";
     phaseLabel.style.opacity = "1";
-    orb.style.transition = "none";
-    orb.style.transform = "scale(0.5)";
+    tide.style.transition = "none";
+    tide.style.transform = `translateY(${TIDE_REST}%)`;
     ringFill.style.transition = "none";
     ringFill.style.strokeDashoffset = RING_C;
     breathToggle.textContent = "Begin";
@@ -171,13 +173,13 @@
       animateBox(breath.i, p.dur);
     } else {
       if (reduceMotion){
-        orb.style.transition = "transform .6s linear, opacity .6s linear";
+        tide.style.transition = "transform .6s linear";
       } else {
-        orb.style.transition = `transform ${p.dur}s cubic-bezier(.4,0,.2,1)`;
+        tide.style.transition = `transform ${p.dur}s cubic-bezier(.4,0,.2,1)`;
       }
       // force reflow so the new transition applies
-      void orb.offsetWidth;
-      orb.style.transform = `scale(${p.scale})`;
+      void tide.offsetWidth;
+      tide.style.transform = tideLevel(p.scale);
 
       // ring fills over the phase
       ringFill.style.transition = "none";
@@ -208,9 +210,9 @@
   function pauseBreath(){
     breath.running = false;
     clearTimeout(breath.timer);
-    // freeze orb + ring where they are
-    const m = getComputedStyle(orb).transform;
-    orb.style.transition = "none"; orb.style.transform = m;
+    // freeze tide + ring where they are
+    const m = getComputedStyle(tide).transform;
+    tide.style.transition = "none"; tide.style.transform = m;
     const off = getComputedStyle(ringFill).strokeDashoffset;
     ringFill.style.transition = "none"; ringFill.style.strokeDashoffset = off;
     if (breath.ex && breath.ex.box){ // freeze the marker + trace where they are
@@ -280,10 +282,10 @@
      CATEGORIES
      ============================================================ */
   const CATEGORIES = [
-    "Coffee brewing methods", "Chess openings", "Fountain pen brands",
-    "Cities you've visited", "Things that are blue", "Fruits",
-    "Dog breeds", "Films you love", "Board games",
-    "Trees", "Composers", "Breakfast foods",
+    "Animals", "Fruits & vegetables", "Things that are blue",
+    "Cities or countries", "Songs you love", "Movies you've seen",
+    "Things in this room", "Foods you like", "Colours",
+    "Sports & games", "Names A to Z", "Things that are round",
   ];
   const catPick = $("#cat-pick"), catRun = $("#cat-run"), catGrid = $("#cat-grid"),
         catTitle = $("#cat-title"), catTally = $("#cat-tally"), catAdd = $("#cat-add"), catBack = $("#cat-back");

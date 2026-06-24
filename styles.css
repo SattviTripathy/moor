@@ -66,6 +66,7 @@ body{
 
 /* ============ HOME ============ */
 .home-head{ margin:6px 0 26px; }
+.home-head .eyebrow{ font-size:1.05rem; letter-spacing:.16em; }
 .home-title{
   font-family:"Fraunces", Georgia, serif;
   font-variation-settings:"SOFT" 40, "WONK" 0, "opsz" 90;
@@ -83,9 +84,9 @@ body{
   display:flex; align-items:center; gap:16px;
   padding:20px 22px; margin-bottom:34px;
   border-radius:var(--r-lg);
-  background:linear-gradient(135deg, #FB7185, #E11D48);
-  color:#FFF1F3; text-align:left;
-  box-shadow:0 14px 34px -16px rgba(225,29,72,.55);
+  background:linear-gradient(135deg, #A78BFA, #6D28D9);
+  color:#FFFFFF; text-align:left;
+  box-shadow:0 14px 34px -16px rgba(109,40,217,.55);
   overflow:hidden;
   transition:transform .25s var(--ease), box-shadow .25s var(--ease);
 }
@@ -93,7 +94,7 @@ body{
 .panic-pulse{
   position:absolute; right:-30px; top:50%; width:160px; height:160px;
   translate:0 -50%; border-radius:50%;
-  background:radial-gradient(circle, rgba(255,235,238,.5), transparent 62%);
+  background:radial-gradient(circle, rgba(255,255,255,.4), transparent 62%);
   animation:panicPulse 3.4s var(--ease) infinite;
 }
 @keyframes panicPulse{ 0%,100%{ transform:scale(.85); opacity:.55; } 50%{ transform:scale(1.12); opacity:.85; } }
